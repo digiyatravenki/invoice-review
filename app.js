@@ -160,17 +160,38 @@
 
   async function loadInvoices() {
     try {
+      // loadLatestInvoice() already returns cached real data on fetch
+      // failure, so we only land in catch when there is genuinely nothing.
       const data = await loadLatestInvoice();
       renderInvoiceList([summarizeInvoice(data)]);
     } catch (err) {
-      // Fallback to bundled mock data so the UI is demoable statically.
-      showNotice(
-        "overview-notice",
-        "Live data unavailable — showing bundled demo invoice."
-      );
-      const mock = window.buildMockReview ? window.buildMockReview() : null;
-      renderInvoiceList(mock ? [summarizeInvoice(mock)] : []);
+      // No mock fallback — show a neutral empty state.
+      renderInvoiceList([]);
     }
+    // Reflect an Accept/Reject decision carried over from the review screen.
+    applyStoredStatus();
+  }
+
+  /**
+   * If the review screen recorded a decision, update the rendered row's
+   * status badge to match, then clear it so it doesn't persist.
+   */
+  function applyStoredStatus() {
+    let status = null;
+    try {
+      status = sessionStorage.getItem("invoiceStatus");
+      if (status) sessionStorage.removeItem("invoiceStatus");
+    } catch (e) {
+      status = null;
+    }
+    if (!status) return;
+
+    const tbody = document.getElementById("invoice-list");
+    if (!tbody) return;
+    const row = tbody.querySelector("tr[data-id]");
+    if (!row) return;
+    const statusCell = row.cells[row.cells.length - 1];
+    if (statusCell) statusCell.innerHTML = statusBadge(status);
   }
 
   function renderInvoiceList(invoices) {
