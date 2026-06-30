@@ -14,7 +14,7 @@
   // tab (sessionStorage) so navigating between pages reuses a recent result
   // instead of re-hitting the network (or falling back to mock data).
   var LATEST_INVOICE_URL =
-    "https://digiyatravenki.app.n8n.cloud/webhook-test/latest-invoice";
+    "https://digiyatravenki.app.n8n.cloud/webhook/latest-invoice";
   var LATEST_INVOICE_CACHE_KEY = "latestInvoiceCache";
   var LATEST_INVOICE_CACHE_TTL_MS = 60000; // 60s freshness window
 
