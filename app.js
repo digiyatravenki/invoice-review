@@ -1034,9 +1034,22 @@
     });
     updateUnsavedUI();
 
-    // normalizeReview always returns a renderable shape; on failed/missing
-    // data it's empty, so the page renders blank fields + "Not evaluated".
+    // loadReviewData() returns cached real data on fetch failure, so a null
+    // result means there is no live data AND no cache -> go back to overview.
     const data = await loadReviewData();
+    if (!data) {
+      try {
+        sessionStorage.setItem(
+          "reviewRedirectReason",
+          "No invoice data available"
+        );
+      } catch (e) {
+        /* sessionStorage unavailable — non-fatal */
+      }
+      window.location.href = "index.html";
+      return;
+    }
+
     const doc = normalizeReview(data);
 
     // Title reflects the latest invoice's number (no id in the URL anymore).
