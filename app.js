@@ -200,7 +200,7 @@
 
     if (!invoices || invoices.length === 0) {
       tbody.innerHTML =
-        '<tr><td colspan="5"><div class="state">No invoices to review.</div></td></tr>';
+        '<tr><td colspan="5"><div class="state">No invoices available.</div></td></tr>';
       return;
     }
 
