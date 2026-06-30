@@ -198,9 +198,10 @@
     const tbody = document.getElementById("invoice-list");
     if (!tbody) return;
 
+    // Empty/null -> render the table structure (headers live in <thead>)
+    // with zero data rows; no message, no mock row.
     if (!invoices || invoices.length === 0) {
-      tbody.innerHTML =
-        '<tr><td colspan="5"><div class="state">No invoices available.</div></td></tr>';
+      tbody.innerHTML = "";
       return;
     }
 
