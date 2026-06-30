@@ -1016,14 +1016,10 @@
     });
     updateUnsavedUI();
 
+    // normalizeReview always returns a renderable shape; on failed/missing
+    // data it's empty, so the page renders blank fields + "Not evaluated".
     const data = await loadReviewData();
     const doc = normalizeReview(data);
-    if (!doc) {
-      renderInvoice(null);
-      renderLineItems(null);
-      renderValidations({});
-      return;
-    }
 
     // Title reflects the latest invoice's number (no id in the URL anymore).
     const titleEl = document.getElementById("review-invoice-id");
