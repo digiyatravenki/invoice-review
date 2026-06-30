@@ -992,13 +992,6 @@
         placeholder.classList.add("is-hidden");
         if (wrap) wrap.classList.remove("is-hidden");
         if (toolbar) toolbar.classList.remove("is-hidden");
-        // Debug aid: confirm the placeholder is truly removed from layout.
-        console.log(
-          "[pdf] placeholder hidden:",
-          placeholder.classList.contains("is-hidden"),
-          "computed display:",
-          window.getComputedStyle(placeholder).display
-        );
         renderPDF(pdfUrl);
       },
       { once: true }
