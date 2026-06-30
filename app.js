@@ -396,24 +396,25 @@
 
   async function loadReviewData() {
     try {
+      // loadLatestInvoice() already returns cached real data on fetch
+      // failure; it only throws when there is no usable data at all.
       return await loadLatestInvoice();
     } catch (err) {
-      showNotice(
-        "review-notice",
-        "Live data unavailable — showing bundled demo invoice."
-      );
-      return window.buildMockReview ? window.buildMockReview() : null;
+      // No mock fallback — render an empty review.
+      return null;
     }
   }
 
   /**
    * Normalize the latest-invoice response { pdf_url, validations, extracted }
    * into { matches, validations, name, pdf_url } for the render functions.
+   * Missing/failed data yields an empty (but renderable) shape so the page
+   * shows blank fields, "Not evaluated" validations, and no filename.
    */
   function normalizeReview(data) {
-    if (!data) return null;
+    data = data || {};
     const matches = data.extracted || {};
-    const pdf_url = data.pdf_url || window.SAMPLE_PDF_URL || "";
+    const pdf_url = data.pdf_url || "";
     let name = data.name || "";
     if (!name && pdf_url) {
       // Derive a filename from the PDF URL for the Document info card.
