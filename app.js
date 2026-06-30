@@ -170,6 +170,23 @@
     }
     // Reflect an Accept/Reject decision carried over from the review screen.
     applyStoredStatus();
+    // Show a one-time notice if we were redirected here from the review page.
+    applyRedirectNotice();
+  }
+
+  /**
+   * If the review screen redirected here for lack of data, show a one-time
+   * toast with the reason, then clear it so refreshes show nothing.
+   */
+  function applyRedirectNotice() {
+    let reason = null;
+    try {
+      reason = sessionStorage.getItem("reviewRedirectReason");
+      if (reason) sessionStorage.removeItem("reviewRedirectReason");
+    } catch (e) {
+      reason = null;
+    }
+    if (reason) showToast(reason + " to review", "info");
   }
 
   /**
