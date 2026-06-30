@@ -651,18 +651,35 @@
     showToast("Changes saved.", "success");
   }
 
-  /** Visual-only decision handler for Accept / Reject (no backend call). */
+  /**
+   * Visual-only decision handler for Accept / Reject (no backend call).
+   * Records the decision in sessionStorage and returns to the overview so
+   * the status badge there reflects it.
+   */
   function decideInvoice(action) {
     const isAccept = action === "accept";
-    // Persist any pending edits first (local only).
-    if (reviewState.dirty) {
-      reviewState.dirty = false;
-      updateUnsavedUI();
+    const status = isAccept ? "approved" : "rejected";
+
+    // Persist any pending edits first (local only) and clear the unsaved
+    // guard so beforeunload doesn't block the navigation below.
+    reviewState.dirty = false;
+    updateUnsavedUI();
+
+    try {
+      sessionStorage.setItem("invoiceStatus", status);
+    } catch (e) {
+      /* sessionStorage unavailable — non-fatal */
     }
+
     showToast(
       isAccept ? "Invoice accepted." : "Invoice rejected.",
       isAccept ? "success" : "danger"
     );
+
+    // Brief delay so the toast is visible before navigating back.
+    setTimeout(function () {
+      window.location.href = "index.html";
+    }, 1000);
   }
 
   function acceptInvoice() {
