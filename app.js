@@ -352,9 +352,9 @@
         }
       }
     );
+    // Clean empty table (headers only), consistent with the no-data state.
     if (!tbody.querySelector("tr[data-id]")) {
-      tbody.innerHTML =
-        '<tr><td colspan="5"><div class="state">No invoices available.</div></td></tr>';
+      tbody.innerHTML = "";
     }
   }
 
