@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"/Users/venkateshsrinivasa/Documents/Invoice Extract\" 2>/dev/null && git add -A 2>/dev/null && { git diff --cached --quiet || git commit -q -m \"auto-commit: $(date '+%Y-%m-%d %H:%M:%S')\"; }; true",
+            "statusMessage": "Auto-committing changes…"
+          }
+        ]
+      }
+    ]
+  }
+}

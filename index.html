@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice Review — Overview</title>
+    <link rel="stylesheet" href="styles.css?v=5" />
+  </head>
+  <body data-page="overview">
+    <header class="app-bar">
+      <div class="app-bar__brand">
+        <span class="app-bar__logo">IR</span>
+        <span>Invoice Review</span>
+      </div>
+      <div class="app-bar__meta">Extraction &amp; Validation Workspace</div>
+    </header>
+
+    <main class="container">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Extracted Invoices</h1>
+          <p class="page-subtitle">
+            Select an invoice to review its extracted fields, validations, and
+            source document.
+          </p>
+        </div>
+      </div>
+
+      <div id="overview-notice" class="notice" role="status"></div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table class="data" aria-label="Extracted invoices">
+            <thead>
+              <tr>
+                <th>Invoice ID</th>
+                <th>Supplier</th>
+                <th>Invoice Date</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="invoice-list">
+              <tr class="skeleton-row">
+                <td colspan="5">
+                  <div class="state">
+                    <span class="spinner"></span> Loading invoices…
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+    <script src="mock-data.js?v=5"></script>
+    <script src="app.js?v=5"></script>
+  </body>
+</html>

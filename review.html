@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice Review — Detail</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css"
+    />
+    <link rel="stylesheet" href="styles.css?v=5" />
+  </head>
+  <body data-page="review">
+    <header class="app-bar">
+      <div class="app-bar__brand">
+        <a class="back-link" href="index.html">&larr; Back</a>
+      </div>
+      <div class="app-bar__meta">
+        Reviewing <strong id="review-invoice-id">—</strong>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Invoice Review</h1>
+          <p class="page-subtitle">
+            Compare extracted data and validation results against the source
+            document.
+          </p>
+        </div>
+        <div class="page-actions">
+          <span id="unsaved-indicator" class="unsaved-indicator">Unsaved changes</span>
+          <button id="accept-btn" class="btn btn--success" type="button">
+            Accept
+          </button>
+          <button id="reject-btn" class="btn btn--danger" type="button">
+            Reject
+          </button>
+          <button id="save-btn" class="btn btn--primary is-idle" type="button">
+            Save Changes
+          </button>
+        </div>
+      </div>
+
+      <div id="review-notice" class="notice" role="status"></div>
+
+      <div class="review-grid">
+        <!-- Left: extracted fields -->
+        <section class="panel" aria-label="Extracted fields">
+          <div class="panel__head">Extracted Fields</div>
+          <div class="panel__body" id="invoice-panel">
+            <div class="state"><span class="spinner"></span> Loading…</div>
+          </div>
+        </section>
+
+        <!-- Middle: validation results -->
+        <section class="panel" aria-label="Validation results">
+          <div class="panel__head">Validation Results</div>
+          <div class="panel__body" id="validation-panel">
+            <div class="state"><span class="spinner"></span> Loading…</div>
+          </div>
+        </section>
+
+        <!-- Right: PDF preview (lazy-loaded on click) -->
+        <section class="panel pdf-panel" aria-label="Document preview">
+          <div class="panel__head">Source Document</div>
+          <div class="panel__body">
+            <!-- 1. Filename, always visible at the top -->
+            <div id="doc-info" class="doc-info">
+              <div class="doc-info__title">Document info</div>
+              <dl class="doc-info__list" id="doc-info-list">
+                <div class="doc-info__row">
+                  <dt>Filename</dt>
+                  <dd id="doc-info-name">—</dd>
+                </div>
+              </dl>
+            </div>
+
+            <!-- 2. Preview area: placeholder, replaced by the canvas on click -->
+            <div class="pdf-preview-area">
+              <button id="pdf-placeholder" class="pdf-placeholder" type="button">
+                <i class="ti ti-file-type-pdf pdf-placeholder__icon" aria-hidden="true"></i>
+                <span class="pdf-placeholder__text">Click to preview PDF</span>
+                <span class="pdf-placeholder__hint">Loads only when needed</span>
+              </button>
+
+              <div class="pdf-canvas-wrap is-hidden" id="pdf-canvas-wrap">
+                <canvas id="pdf-canvas"></canvas>
+              </div>
+            </div>
+
+            <!-- 3. Page controls, only shown once the PDF is loading/loaded -->
+            <div class="pdf-toolbar is-hidden" id="pdf-toolbar">
+              <button id="pdf-prev" type="button" disabled>&lsaquo; Prev</button>
+              <span id="pdf-status" class="pdf-status">Preparing preview…</span>
+              <button id="pdf-next" type="button" disabled>Next &rsaquo;</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Full-width line items, separated from the extracted fields -->
+      <section class="panel line-items-panel" aria-label="Line items">
+        <div class="panel__head">Line Items</div>
+        <div class="panel__body" id="line-items-panel">
+          <div class="state"><span class="spinner"></span> Loading…</div>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+    <!-- PDF.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="mock-data.js?v=5"></script>
+    <script src="app.js?v=5"></script>
+  </body>
+</html>
